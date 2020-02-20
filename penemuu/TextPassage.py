@@ -10,19 +10,20 @@ class TextPassage:
 
         title (str): The title of a biomedical text.
         abstract (str): The abstract of a biomedical text.
-        passage (str): The combined title and abstract.
+        text (str): The combined title and abstract.
         """
 
         self.title = ''
         self.abstract = ''
-        self.passage = ''
+        self.text = ''
 
         if medline_record:
             self.title = medline_record.get('TI', '')
             self.abstract = medline_record.get('AB', '')
-            self.passage = ' '.join([self.title, self.abstract])
+            self.text = ' '.join([self.title, self.abstract])
 
         self.ents_by_label = {}
+        self.sentences = []
 
     def add_text(self, text_passage):
         """
@@ -31,7 +32,7 @@ class TextPassage:
         :param text_passage (str): biomedical text of one or more sentences.
         """
 
-        self.passage = text_passage
+        self.text = text_passage
 
     def extract_title_and_abstract_from_medline(self, medline_record):
         """
@@ -42,4 +43,14 @@ class TextPassage:
 
         self.title = medline_record.get('TI', '')
         self.abstract = medline_record.get('AB', '')
-        self.passage = ' '.join(self.title, self.abstract)
+        self.text = ' '.join(self.title, self.abstract)
+
+    def add_annotated_sentences(self, passage_doc):
+
+        for ent in passage_doc.ents:
+            self.ents_by_label.setdefault(ent.label_, []).append(ent)
+
+        for sent in passage_doc.sents:
+            self.sentences.append(sent)
+
+

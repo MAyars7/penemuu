@@ -17,7 +17,7 @@ def get_single_sentences_with_entities_by_labels(passage_corpus, passage_annotat
 
     for text_passage in passage_corpus.text_passages:
 
-        annotated_doc = passage_annotator.annotate_passage_with_named_entities(text_passage.abstract)
+        annotated_doc = passage_annotator.annotate_text_with_named_entities(text_passage.abstract)
 
         for annotated_sent in annotated_doc.sents:
             label_ents_present = []

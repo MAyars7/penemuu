@@ -1,5 +1,6 @@
 import os
 import spacy
+from penemuu import TextPassage
 from spacy.pipeline import EntityRuler
 from pysbd.utils import PySBDFactory
 
@@ -44,17 +45,26 @@ class PassageAnnotator:
             self.nlp.add_pipe(PySBDFactory(self.nlp), before='parser')
             print("PySBDFactory added to spacy pipeline.")
 
-    def annotate_passage_with_named_entities(self, passage):
+    def annotate_text_with_named_entities(self, text):
         """
         Using an EntityRuler component, identify named entities and merge their component tokens.
         :param passage (str): a text passage.
         :return (Spacy.doc): a doc object that includes the identified named entities.
         """
 
-        doc = self.nlp(passage.lower())
+        doc = self.nlp(text.lower())
         with doc.retokenize() as retokenizer:
             for ent in doc.ents:
                 retokenizer.merge(ent)
 
         return doc
+
+    def annotate_passage(self, penemuu_passage):
+
+        passage_doc = self.annotate_text_with_named_entities(penemuu_passage.text)
+
+        penemuu_passage.add_annotated_sentences(passage_doc)
+
+        return penemuu_passage
+
 
