@@ -11,7 +11,7 @@ Simple web-search based techniques are highly scalable, but easily confounded: a
 
 #### Dependency trees
 
-
+![dep tree](/images/spacy_dep_pathing.png)
 
 **Current State**
   * Downloaded abstracts in medline format are parsed and stored in a PassageCorpus.
