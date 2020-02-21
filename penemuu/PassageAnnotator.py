@@ -6,6 +6,12 @@ from pysbd.utils import PySBDFactory
 
 #temporary
 import en_core_web_sm
+import en_core_web_md
+
+#import en_core_web_lg
+
+#Scispacy language models are incompatible with spaCy 2.2.4, which is required for EntityRuler.  Will add when updated.
+#import en_core_sci_sm
 
 class PassageAnnotator:
     """
@@ -13,9 +19,20 @@ class PassageAnnotator:
 
     Entities of interest are provided as a jsonl file with 1 entry per line, which is used to populate an EntityRuler object.
     """
+    def __init__(self, lang_model_to_use='en_core_web_sm'):
 
-    def __init__(self):
-        self.nlp = en_core_web_sm.load()
+        model_dict = {
+            'en_core_web_sm': en_core_web_sm,
+            'en_core_web_md': en_core_web_md,
+        }
+        model = model_dict.get(lang_model_to_use, None)
+
+        if model:
+            self.nlp = model.load()
+        else:
+            print('No model available for specified model name %s' % lang_model_to_use)
+            self.nlp = None
+
         self.entity_ruler = None
 
     def add_entity_ruler_from_jsonl(self, jsonl_path):
