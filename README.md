@@ -36,7 +36,7 @@ My hope is that by looking at the dependency path between entities and between e
 There are several traits to scientific abstracts that make them simpler to interpret with NLP techniques than a lot of mainstream texts:
 * They summarize the major findings of a paper in (usually) no more than a few sentences.
 * Facts are expressed in clear and unambiguous terms. 
-* Papers are edited 
+* Papers are edited for grammar and spelling.
 * Sarcasm is almost nonexistant.
 
 They also have traits that complicate things:
